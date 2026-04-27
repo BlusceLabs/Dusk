@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "RYNuj2gY8t-h4ocsTHmWW"
+uri = "file://artifacts/dusk/assets/images/icon.png"
+type = "image"
+title = "dusk app icon"
+
+[[generated]]
+id = "ZhdOeTjvwyiS-lntdKucL"
+uri = "file://artifacts/dusk/assets/images/splash.png"
+type = "image"
+title = "dusk splash screen"
+
+[[generated]]
+id = "es2QIX4bfipU0c8iLF7Ws"
+uri = "file://artifacts/dusk/assets/images/placeholder_post1.png"
+type = "image"
+title = "placeholder post 1"
+
+[[generated]]
+id = "TEefBOAI1y-cze3qwzPLY"
+uri = "file://artifacts/dusk/assets/images/placeholder_post2.png"
+type = "image"
+title = "placeholder post 2"

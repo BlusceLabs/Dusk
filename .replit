@@ -1,0 +1,163 @@
+modules = ["nodejs-24", "java-graalvm22.3", "rust-stable", "python-3.11"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "services/feed: Scala"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "services/media: C++"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "services/realtime: Java"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "services/rate-limiter: Rust"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "services/ml: Python Django"
+
+[[workflows.workflow]]
+name = "services/feed: Scala"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=3002 bash artifacts/feed-service/start.sh"
+waitForPort = 3002
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "services/media: C++"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=3003 bash artifacts/media-service/start.sh"
+waitForPort = 3003
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "services/realtime: Java"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=3001 bash artifacts/realtime-service/start.sh"
+waitForPort = 3001
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "services/rate-limiter: Rust"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=3000 bash artifacts/rate-limiter/start.sh"
+waitForPort = 3000
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[[workflows.workflow]]
+name = "services/ml: Python Django"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=8000 bash artifacts/ml-service/start.sh"
+waitForPort = 8000
+
+[workflows.workflow.metadata]
+outputType = "console"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+integrations = ["resend:1.0.0"]
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
+
+[[ports]]
+localPort = 3000
+externalPort = 5173
+
+[[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
+localPort = 3002
+externalPort = 5000
+
+[[ports]]
+localPort = 3003
+externalPort = 4200
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 80
+
+[[ports]]
+localPort = 8082
+externalPort = 3002
+
+[[ports]]
+localPort = 22400
+externalPort = 3000
+
+[[ports]]
+localPort = 22401
+externalPort = 3003
+
+[userenv]
+
+[userenv.shared]
+EXPO_PUBLIC_FIREBASE_API_KEY = "AIzaSyDRxJAqRZPo86S6FkyLq6hm9HutEqIfbGk"
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN = "duskapp26.firebaseapp.com"
+EXPO_PUBLIC_FIREBASE_PROJECT_ID = "duskapp26"
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET = "duskapp26.firebasestorage.app"
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "925483369290"
+EXPO_PUBLIC_FIREBASE_APP_ID = "1:925483369290:android:1600e140c13f1ce3c777b3"
+EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID = "925483369290-22tmk89djja1vo5dm2euc2joe10e5014.apps.googleusercontent.com"
+EXPO_PUBLIC_GOOGLE_REDIRECT_URI = "https://97bc326e-4dc0-45f0-8479-b22f98640ed3-00-2ix2ze79jobtb.expo.riker.replit.dev/auth"
+PAYPAL_ENV = "live"
+API_ADMIN_TOKEN = "667170a4edd05a3f85a57e2ce561f7651d93413bcb2e6a7625bd7520c6f2ddc6"
+
+[nix]
+channel = "stable-25_05"

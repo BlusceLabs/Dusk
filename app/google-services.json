@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "925483369290",
+    "project_id": "duskapp26",
+    "storage_bucket": "duskapp26.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925483369290:android:1600e140c13f1ce3c777b3",
+        "android_client_info": {
+          "package_name": "com.dusk.messenger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRxJAqRZPo86S6FkyLq6hm9HutEqIfbGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
