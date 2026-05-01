@@ -1,167 +1,39 @@
-# Dusk
+## Telegram messenger for Android
 
-**Everything. Everyone. Everywhere.**
+[Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple and free.
+This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).
 
-Dusk is an open-source Android social super-app built with Expo and React Native. It combines the best features of Twitter, Instagram, Telegram, TikTok, Signal, Patreon, Reddit, and Twitch into a single, unified experience.
+## Creating your Telegram Application
 
----
+We welcome all developers to use our API and source code to create applications on our platform.
+There are several things we require from **all developers** for the moment.
 
-## Features
+1. [**Obtain your own api_id**](https://core.telegram.org/api/obtaining_api_id) for your application.
+2. Please **do not** use the name Telegram for your app — or make sure your users understand that it is unofficial.
+3. Kindly **do not** use our standard logo (white paper plane in a blue circle) as your app's logo.
+3. Please study our [**security guidelines**](https://core.telegram.org/mtproto/security_guidelines) and take good care of your users' data and privacy.
+4. Please remember to publish **your** code too in order to comply with the licences.
 
-- **Feed** — For You / Following / Live tabs, stories bar, post cards, reels strip
-- **Reels** — TikTok-style vertical video feed with double-tap to like and comment drawer
-- **Stories** — Instagram-style stories with progress bar and auto-advance
-- **Posts** — Rich composer with images, video, and polls; real-time Firestore feed
-- **Comments** — Real-time comments with likes
-- **Communities** — Reddit-style communities with posts, rules, and member counts
-- **Messages** — DMs with typing indicators, read receipts, emoji reactions, reply-to, and message deletion
-- **Live Streaming** — Twitch-style stream viewer with live chat; go-live flow with category picker
-- **Search & Explore** — Multi-tab search (people, posts, communities) with Redis-powered trending hashtags
-- **Notifications** — Real-time notification feed with mark-all-read
-- **Creator Hub** — Patreon-style subscription tiers (Bronze / Silver / Gold) with revenue analytics
-- **Premium** — PayPal-powered paid subscriptions with gold verification badge
-- **Profile** — Banner cover photo, 3-column media grid, edit profile, follow/unfollow
-- **Dark / Light theme** — System-aware with manual toggle
+### API, Protocol documentation
 
----
+Telegram API manuals: https://core.telegram.org/api
 
-## Tech Stack
+MTproto protocol manuals: https://core.telegram.org/mtproto
 
-### Mobile App
-| Layer | Technology |
-|-------|-----------|
-| Framework | Expo SDK 54, React Native |
-| Routing | Expo Router v6 (file-based) |
-| State | React Context + Zustand |
-| Auth | Firebase Authentication |
-| Database | Firebase Firestore (real-time) |
-| Media | Cloudflare R2 (via presigned URLs) |
-| Payments | PayPal SDK |
-| Push | Expo Notifications + FCM |
-| UI | Custom design system, Inter font |
+### Compilation Guide
 
-### Backend (Hybrid Multi-Language Architecture)
+**Note**: In order to support [reproducible builds](https://core.telegram.org/reproducible-builds), this repo contains dummy release.keystore,  google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
 
-Dusk's backend is built as a polyglot system — different layers are implemented in the language best suited for their workload:
+You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
 
-| Service | Language / Framework | Role |
-|---------|---------------------|------|
-| API Gateway | Node.js 24, Express 5, TypeScript | REST API, auth middleware, event routing |
-| Media Pipeline | C++ | High-performance video transcoding and image compression |
-| Feed Engine | Scala | Distributed feed fan-out and ranking (Akka Streams) |
-| ML / Recommendations | Python, Django | Content recommendations, NSFW detection, hashtag trending |
-| Real-time Engine | Java | WebSocket hub, live stream session management |
-| Systems Services | Rust | Rate limiting daemon, token validation, hot-path caching |
+1. Download the Telegram source code from https://github.com/DrKLO/Telegram ( git clone https://github.com/DrKLO/Telegram.git )
+2. Copy your release.keystore into TMessagesProj/config
+3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in gradle.properties to access your  release.keystore
+4.  Go to https://console.firebase.google.com/, create two android apps with application IDs org.telegram.messenger and org.telegram.messenger.beta, turn on firebase messaging and download google-services.json, which should be copied to the same folder as TMessagesProj.
+5. Open the project in the Studio (note that it should be opened, NOT imported).
+6. Fill out values in TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java – there’s a link for each of the variables showing where and which data to obtain.
+7. You are ready to compile Telegram.
 
-### Backend Infrastructure
-| Layer | Technology |
-|-------|-----------|
-| Database | Neon PostgreSQL + Drizzle ORM |
-| Cache | Upstash Redis (rate limiting, trending, live counts) |
-| Queues | RabbitMQ / CloudAMQP (push, email, media processing) |
-| Analytics | DataStax Astra (Cassandra) |
-| Email | Resend |
-| Auth middleware | Firebase ID token verification (Google JWKs) |
-| Media CDN | Cloudflare R2 |
+### Localization
 
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- pnpm 9+
-- Expo Go app on your Android device (or an emulator)
-- A Firebase project
-- (Optional) Neon, Upstash, Cloudflare R2, RabbitMQ accounts for full backend features
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/hoodDevs/Dusk.git
-cd Dusk
-```
-
-### 2. Install dependencies
-
-```bash
-pnpm install
-```
-
-### 3. Configure environment variables
-
-```bash
-cp .env.example .env
-```
-
-Open `.env` and fill in your credentials. At minimum you need the **Firebase** variables to run the app. See `.env.example` for descriptions of every variable.
-
-### 4. Start the API server
-
-```bash
-pnpm --filter @workspace/api-server run dev
-```
-
-### 5. Start the Expo app
-
-```bash
-pnpm --filter @workspace/dusk run dev
-```
-
-Scan the QR code with Expo Go on your Android device.
-
----
-
-## Project Structure
-
-```
-/
-├── artifacts/
-│   ├── api-server/          # Express API server
-│   │   └── src/
-│   │       ├── routes/      # REST endpoints
-│   │       ├── lib/         # Events, DB, Redis, RabbitMQ
-│   │       └── middleware/  # Firebase auth verification
-│   └── dusk/                # Expo React Native app
-│       ├── app/             # Expo Router screens
-│       │   ├── (tabs)/      # Main tab screens
-│       │   ├── auth/        # Sign in / sign up
-│       │   ├── chat/        # DM screens
-│       │   ├── profile/     # Public profile
-│       │   └── ...
-│       ├── components/      # Shared UI components
-│       ├── context/         # AppContext (global state)
-│       ├── lib/
-│       │   ├── firebase/    # Firestore, Auth, Storage helpers
-│       │   └── api.ts       # API client
-│       ├── hooks/           # useColors, useAuth, etc.
-│       └── constants/       # Colors, theme tokens
-```
-
----
-
-## Firebase Setup
-
-1. Create a project at [console.firebase.google.com](https://console.firebase.google.com)
-2. Enable **Authentication** (Email/Password + Google)
-3. Enable **Firestore Database**
-4. Enable **Storage**
-5. Copy your web app credentials into `.env`
-
----
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first.
-
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Commit your changes
-4. Push and open a PR
-
----
-
-## License
-
-MIT
+We moved all translations to https://translations.telegram.org/en/android/. Please use it.
