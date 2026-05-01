@@ -12,7 +12,8 @@ import javax.inject.Inject
 data class ChatDetailUiState(
     val messages: List<ChatMessage> = emptyList(),
     val isLoading: Boolean = true,
-    val error: String? = null
+    val error: String? = null,
+    val currentUserId: String = ""
 )
 
 @HiltViewModel
@@ -27,6 +28,8 @@ class ChatDetailViewModel @Inject constructor(
 
     fun loadChat(chatId: String) {
         currentChatId = chatId
+        val uid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        _uiState.update { it.copy(currentUserId = uid) }
         viewModelScope.launch {
             chatRepository.getMessages(chatId).collect { messages ->
                 _uiState.update { it.copy(messages = messages, isLoading = false) }

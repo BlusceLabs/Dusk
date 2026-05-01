@@ -60,9 +60,10 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
-    implementation(libs.compose.material.icons)
-    implementation(libs.compose.navigation)
-    implementation(libs.compose.activity)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.navigation.compose)
+    implementation(libs.activity.compose)
+    implementation(libs.activity.ktx)
 
     // Lifecycle
     implementation(libs.lifecycle.runtime.compose)
@@ -70,6 +71,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
     // Firebase
@@ -79,10 +81,14 @@ dependencies {
     implementation(libs.firebase.storage)
     implementation(libs.firebase.messaging)
 
+    // Google Sign-In
+    implementation(libs.play.services.auth)
+
     // Retrofit + OkHttp
     implementation(libs.retrofit)
     implementation(libs.retrofit.moshi)
     implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
     implementation(libs.moshi)
     ksp(libs.moshi.codegen)
 
@@ -107,9 +113,5 @@ dependencies {
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.compose.ui.test)
-    androidTestImplementation(libs.espresso)
-}
-
-kapt {
-    correctErrorTypes = true
+    androidTestImplementation(libs.espresso.core)
 }

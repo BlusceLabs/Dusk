@@ -116,8 +116,10 @@ fun FeedScreen(
         // Stories overlay
         if (showStories) {
             StoriesViewerScreen(
-                userId = storyUserId,
-                onDismiss = { showStories = false }
+                uiState = com.dusk.app.ui.stories.StoriesUiState(),
+                onClose = { showStories = false },
+                onNext = { },
+                onPrevious = { }
             )
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
@@ -58,7 +59,7 @@ fun ProfileScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
@@ -97,9 +98,9 @@ fun ProfileScreen(
                                 contentScale = ContentScale.Crop
                             )
                             Spacer(modifier = Modifier.weight(1f))
-                            ProfileStat("Posts", formatCount(uiState.user?.posts ?: 0))
-                            ProfileStat("Followers", formatCount(uiState.user?.followers?.size ?: 0))
-                            ProfileStat("Following", formatCount(uiState.user?.following?.size ?: 0))
+                            ProfileStat("Posts", formatCount(0))
+                            ProfileStat("Followers", formatCount(uiState.user?.followers ?: 0))
+                            ProfileStat("Following", formatCount(uiState.user?.following ?: 0))
                         }
 
                         Spacer(modifier = Modifier.height(12.dp))

@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dusk.app.data.repository.WalletBalance
 import com.dusk.app.data.repository.WalletTransaction
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -149,5 +150,5 @@ fun TransactionItem(transaction: WalletTransaction) {
             fontSize = 14.sp
         )
     }
-    Divider(modifier = Modifier.padding(horizontal = 16.dp))
+    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 }

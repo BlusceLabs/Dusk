@@ -23,24 +23,19 @@ import com.dusk.app.ui.wallet.WalletScreen
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    isAuthenticated: Boolean,
     modifier: Modifier = Modifier
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (isAuthenticated) Screen.Feed.route else Screen.SignIn.route,
+        startDestination = Screen.Feed.route,
         modifier = modifier
     ) {
-        composable(Screen.SignIn.route) { /* TODO SignInScreen */ }
-        composable(Screen.SignUp.route) { /* TODO SignUpScreen */ }
-        composable(Screen.ForgotPassword.route) { /* TODO ForgotPasswordScreen */ }
         composable(Screen.Feed.route) {
             FeedScreen(
-                onProfileClick = { userId -> navController.navigate("profile/$userId") },
+                onProfileClick = { userId -> navController.navigate(Screen.Profile.createRoute(userId)) },
                 onChatClick = { navController.navigate(Screen.Chat.route) },
                 onSearchClick = { navController.navigate(Screen.Search.route) },
-                onReelsClick = { navController.navigate(Screen.Reels.route) },
-                onNotificationsClick = { navController.navigate(Screen.Notifications.route) }
+                onPostClick = { postId -> navController.navigate(Screen.PostDetail.createRoute(postId)) }
             )
         }
         composable(
@@ -53,14 +48,14 @@ fun NavGraph(
                 currentUserId = "",
                 onBack = { navController.popBackStack() },
                 onSettingsClick = { navController.navigate(Screen.Settings.route) },
-                onPostClick = { postId -> navController.navigate("post/$postId") }
+                onPostClick = { postId -> navController.navigate(Screen.PostDetail.createRoute(postId)) }
             )
         }
         composable(Screen.Chat.route) {
             ChatListScreen(
                 onBack = { navController.popBackStack() },
-                onChatClick = { chatId -> navController.navigate("chat/$chatId") },
-                onNewChat = { /* TODO */ }
+                onChatClick = { chatId -> navController.navigate(Screen.ChatDetail.createRoute(chatId)) },
+                onNewChat = { }
             )
         }
         composable(
@@ -75,32 +70,28 @@ fun NavGraph(
         }
         composable(Screen.Search.route) {
             SearchScreen(
-                onUserClick = { userId -> navController.navigate("profile/$userId") },
-                onPostClick = { postId -> navController.navigate("post/$postId") },
+                onUserClick = { userId -> navController.navigate(Screen.Profile.createRoute(userId)) },
+                onPostClick = { postId -> navController.navigate(Screen.PostDetail.createRoute(postId)) },
                 onBack = { navController.popBackStack() }
             )
         }
         composable(Screen.Reels.route) {
-            ReelsScreen(
-                onBack = { navController.popBackStack() },
-                onProfileClick = { userId -> navController.navigate("profile/$userId") }
-            )
+            ReelsScreen()
         }
         composable(Screen.Notifications.route) {
-            NotificationsScreen(
-                onBack = { navController.popBackStack() },
-                onUserClick = { userId -> navController.navigate("profile/$userId") }
-            )
+            NotificationsScreen()
         }
-        composable(Screen.Communities.route) { /* TODO CommunitiesScreen */ }
+        composable(Screen.Communities.route) { /* TODO */ }
         composable(
             Screen.Stories.route,
             listOf(navArgument("userId") { type = NavType.StringType })
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId") ?: return@composable
             StoriesViewerScreen(
-                userId = userId,
-                onDismiss = { navController.popBackStack() }
+                uiState = com.dusk.app.ui.stories.StoriesUiState(),
+                onClose = { navController.popBackStack() },
+                onNext = { },
+                onPrevious = { }
             )
         }
         composable(
@@ -108,21 +99,13 @@ fun NavGraph(
             listOf(navArgument("streamId") { type = NavType.StringType })
         ) { backStackEntry ->
             val streamId = backStackEntry.arguments?.getString("streamId") ?: return@composable
-            LiveScreen(
-                streamId = streamId,
-                onBack = { navController.popBackStack() }
-            )
+            LiveScreen()
         }
         composable(Screen.Premium.route) {
-            PremiumScreen(
-                onBack = { navController.popBackStack() },
-                onSubscribe = { /* TODO */ }
-            )
+            PremiumScreen()
         }
         composable(Screen.Wallet.route) {
-            WalletScreen(
-                onBack = { navController.popBackStack() }
-            )
+            WalletScreen()
         }
         composable(Screen.Settings.route) {
             SettingsScreen(
@@ -132,6 +115,6 @@ fun NavGraph(
         composable(
             Screen.PostDetail.route,
             listOf(navArgument("postId") { type = NavType.StringType })
-        ) { /* TODO PostDetailScreen */ }
+        ) { /* TODO */ }
     }
 }

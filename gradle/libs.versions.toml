@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.3"
+agp = "8.13.2"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 hilt = "2.53.1"
@@ -18,8 +18,12 @@ coil = "2.7.0"
 room = "2.6.1"
 coroutines = "1.9.0"
 datastore = "1.1.2"
-exoplayer = "1.5.2"  # AndroidX Media3
+exoplayer = "1.4.1"  # AndroidX Media3
 paypal = "1.1.1"
+accompanist = "0.36.0"
+junit = "4.13.2"
+androidx-test-ext-junit = "1.2.1"
+espresso = "3.6.1"
 
 [libraries]
 # Compose BOM
@@ -34,6 +38,7 @@ compose-foundation = { group = "androidx.compose.foundation", name = "foundation
 
 # Core
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity-compose" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -93,6 +98,19 @@ media3-session = { group = "androidx.media3", name = "media3-session", version.r
 
 # Splash Screen
 splash-screen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.1" }
+
+# Accompanist
+accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist" }
+
+# Testing
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+
+# Compose BOM also provides these
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

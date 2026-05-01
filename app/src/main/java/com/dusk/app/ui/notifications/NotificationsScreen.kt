@@ -18,6 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -92,8 +96,11 @@ fun NotificationItem(notification: Notification, onClick: () -> Unit) {
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = buildString {
-                    append("<b>${notification.fromUser?.displayName ?: "Someone"}</b> ")
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(notification.fromUser?.displayName ?: "Someone")
+                    }
+                    append(" ")
                     append(notification.content)
                 },
                 fontSize = 14.sp,
@@ -111,12 +118,13 @@ fun NotificationItem(notification: Notification, onClick: () -> Unit) {
             Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary))
         }
     }
-    Divider()
+    HorizontalDivider()
 }
 
+@Composable
 fun notificationIcon(type: NotificationType): Pair<ImageVector, Color> = when (type) {
     NotificationType.LIKE -> Icons.Filled.Favorite to Color(0xFFEF4444)
-    NotificationType.COMMENT -> Icons.Filled.ChatBubble to MaterialTheme.colorScheme.primary
+    NotificationType.COMMENT -> Icons.Filled.Email to MaterialTheme.colorScheme.primary
     NotificationType.FOLLOW -> Icons.Filled.PersonAdd to Color(0xFF22C55E)
     NotificationType.REPOST -> Icons.Filled.Replay to Color(0xFF3B82F6)
     NotificationType.MENTION -> Icons.Filled.AlternateEmail to Color(0xFFA855F7)

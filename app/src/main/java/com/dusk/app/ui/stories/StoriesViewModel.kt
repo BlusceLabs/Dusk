@@ -34,7 +34,7 @@ class StoriesViewModel @Inject constructor(
 
     private fun loadStories() {
         viewModelScope.launch {
-            repository.getStories().collect { stories ->
+            repository.getActiveStories().collect { stories ->
                 val grouped = stories.groupBy { it.userId }
                 _uiState.value = _uiState.value.copy(
                     stories = stories,

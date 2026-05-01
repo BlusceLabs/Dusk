@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.dusk.app.data.repository.ReelComment
 import com.dusk.app.domain.model.Post
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -209,10 +210,10 @@ fun CommentsSheet(
                 Icon(Icons.Filled.Close, contentDescription = "Close")
             }
         }
-        Divider()
+        HorizontalDivider()
         LazyColumn(modifier = Modifier.weight(1f)) {
-            items(comments) { comment ->
-                CommentItem(comment)
+            items(comments.size) { index ->
+                CommentItem(comments[index])
             }
         }
         Row(

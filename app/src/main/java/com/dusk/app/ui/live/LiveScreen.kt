@@ -78,7 +78,7 @@ fun LiveStreamCard(stream: LiveStream, onWatch: () -> Unit) {
                 model = stream.thumbnailUrl,
                 contentDescription = null,
                 modifier = Modifier.fillMaxWidth().height(200.dp),
-                contentScale = ContentScale.Cover
+                contentScale = ContentScale.Crop
             )
             // Live badge
             Surface(

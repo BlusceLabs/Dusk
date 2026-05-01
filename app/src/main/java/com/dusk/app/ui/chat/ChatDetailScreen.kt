@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -51,7 +52,7 @@ fun ChatDetailScreen(
                 title = { Text("Chat", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -70,7 +71,7 @@ fun ChatDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     items(uiState.messages) { message ->
-                        MessageBubble(message = message)
+                        MessageBubble(message = message, currentUserId = uiState.currentUserId)
                     }
                 }
             }
@@ -114,8 +115,8 @@ fun ChatDetailScreen(
 }
 
 @Composable
-fun MessageBubble(message: ChatMessage) {
-    val isMine = message.isMine
+fun MessageBubble(message: ChatMessage, currentUserId: String = "") {
+    val isMine = message.senderId == currentUserId
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = if (isMine) Arrangement.End else Arrangement.Start
